@@ -7,7 +7,15 @@ import type {
 import ytdl from "ytdl-core";
 
 export default async function handler(req: Request, res: Response) {
-  const info = await ytdl.getInfo(req.query.URL as string);
-  //console.log(info);
-  res.send(info);
+  if (req.method === "POST") {
+    const url: string = req.body.url;
+    try {
+      const info = await ytdl.getInfo(url);
+      res.status(200).send(info);
+    } catch (e) {
+      res.status(404).json({
+        message: "Invalid link. Please insert another YouTube link",
+      });
+    }
+  }
 }

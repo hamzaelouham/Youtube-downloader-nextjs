@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .input {
+    @apply block w-full px-1 py-3 text-base rounded-md placeholder-gray-500 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:flex-1 border-gray-300;
+  }
+}
 :root {
   --button-bg: #3b83f6;
   --button-hr: #0861f1;

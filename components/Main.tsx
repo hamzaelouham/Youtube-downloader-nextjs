@@ -2,21 +2,21 @@ import React from "react";
 import Alert from "./Alert";
 import Loader from "./Loader";
 import axios, { AxiosError } from "axios";
+import Video from "./Video";
 
 export default function Main() {
   const [url, setUrl] = React.useState<string>("");
   const [error, setError] = React.useState<boolean>(false);
   const [message, setMessage] = React.useState<string>("");
-  const [info, setInfo] = React.useState({});
+  const [info, setInfo] = React.useState(null);
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const getDownloadinfo = async () => {
     try {
       setError(false);
       setLoading(true);
-      const response = await axios.post(`api/downloader`, { url });
+      const response = await axios.post(`api/getInfo`, { url });
       setInfo(response?.data);
-      console.log(info);
     } catch (e) {
       const err = e as AxiosError;
       setError(true);
@@ -54,6 +54,13 @@ export default function Main() {
         </div>
         <div className="mx-auto flex items-center justify-center px-3 mt-5">
           {loading && <Loader />}
+          {info && (
+            <Video
+              formats={info?.formats}
+              videoDetails={info?.videoDetails}
+              url={url}
+            />
+          )}
         </div>
       </section>
     </main>

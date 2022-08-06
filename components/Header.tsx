@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -14,17 +15,17 @@ export default function Header() {
         <div className="menu">
           <ul>
             <li>
-              <a href="/">Home</a>
+              <Link href="/">Home</Link>
             </li>
             <li>
-              <a href="/">Download</a>
+              <Link href="/">Download</Link>
             </li>
 
             <li>
-              <a href="/">About</a>
+              <Link href="/">About</Link>
             </li>
             <li>
-              <a href="/">Contact us</a>
+              <Link href="/">Contact us</Link>
             </li>
           </ul>
         </div>

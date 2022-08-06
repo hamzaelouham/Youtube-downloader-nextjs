@@ -15,30 +15,33 @@ export const config = {
 export default async function handler(req: Request, res: Response) {
   if (req.method === "POST") {
     res.setHeader("content-type", "application/json");
-    const url: string = req.body.url;
-    const options: string = req.body.options;
-    try {
-      const info = await ytdl.getInfo(url);
-      const format = ytdl.chooseFormat(info.formats, { quality: options });
-      if (!format && typeof format != "object") {
-        return res.status(404).json({
-          message: "something worn!",
-        });
-      }
+    const url = req.query.url as string;
+    const options = req.query.options;
 
-      //res.setHeader("content-type", `video/${format.container}`);
-      res.setHeader(
-        "Content-Disposition",
-        `attachment; filename="${info.videoDetails.title}.${format.container}"`
-      );
-
-      ytdl(url, {
-        filter: (arg) => arg.container === format.container,
-      }).pipe(res);
-    } catch (e) {
-      res.status(404).json({
+    const info = await ytdl.getInfo(url);
+    const format = ytdl.chooseFormat(info.formats, { quality: options });
+    if (!format && typeof format != "object") {
+      return res.status(404).json({
         message: "something worn!",
       });
     }
+
+    //res.setHeader("content-type", `video/${format.container}`);
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${info.videoDetails.title}.${format.container}"`
+    );
+
+    ytdl(url, {
+      filter: (arg) => arg.container === format.container,
+    }).pipe(res);
+
+    // try {
+
+    // } catch (e) {
+    //   res.status(404).json({
+    //     message: "something worn!",
+    //   });
+    // }
   }
 }

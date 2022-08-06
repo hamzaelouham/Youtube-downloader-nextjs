@@ -32,16 +32,13 @@ const fetcher = (Options: any) => {
 export default function Select({ formats, url }: Props) {
   const [options, setOptions] = React.useState("135");
   const download = async () => {
-    const Options = {
-      url,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ options, url }),
-    };
-    fetcher(Options);
     try {
-      const res = await axios.post(`api/download`, { options, url });
-      window.location.href = res.data;
+      // const res = await axios.get(`api/download?url=${url}?options=${options}`);
+      const res = await axios.get(
+        `https://nodejs-react-youtube-downloade.herokuapp.com/downloads?url=${url}?itag=${options}?container=${"mp4"}`
+      );
+      window.location.href = `/api/download?url=${url}?options=${options}`;
+      console.log(res);
       //downloader(res.data, `hjhjk.mp4`, "video/mp4");
       // console.log(res?.data?.blob);
     } catch (error) {}

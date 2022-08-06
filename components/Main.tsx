@@ -1,26 +1,46 @@
 import React from "react";
 import Alert from "./Alert";
 import Loader from "./Loader";
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import Video from "./Video";
+
+type responseData = {
+  formats: {
+    container: string;
+    qualityLabel: string;
+    width: number;
+    height: number;
+    bitrate: number;
+    url: string;
+  }[];
+  videoDetails: {
+    title: string;
+    ownerChannelName: string;
+    lengthSeconds: string;
+    thumbnails: { url: string }[];
+  };
+};
+interface errorMessage {
+  message: string | undefined;
+}
 
 export default function Main() {
   const [url, setUrl] = React.useState<string>("");
   const [error, setError] = React.useState<boolean>(false);
-  const [message, setMessage] = React.useState<string>("");
-  const [info, setInfo] = React.useState(null);
+  const [message, setMessage] = React.useState<string | undefined>("");
+  const [info, setInfo] = React.useState<responseData>();
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const getDownloadinfo = async () => {
     try {
       setError(false);
       setLoading(true);
-      const response = await axios.post(`api/getInfo`, { url });
+      const response = await axios.post<responseData>(`api/getInfo`, { url });
       setInfo(response?.data);
-    } catch (e) {
-      const err = e as AxiosError;
+    } catch (error) {
+      const e = error as AxiosError<errorMessage, any>;
       setError(true);
-      setMessage(err.response?.data?.message);
+      setMessage(e.response?.data?.message);
     } finally {
       setLoading(false);
     }

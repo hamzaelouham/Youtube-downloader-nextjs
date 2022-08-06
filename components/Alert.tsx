@@ -1,7 +1,7 @@
 import React from "react";
 
 interface Alertprops {
-  message: string;
+  message: string | undefined;
 }
 
 const Alert: React.FC<Alertprops> = ({ message }) => {

@@ -8,6 +8,8 @@ type responseData = {
   formats: {
     container: string;
     qualityLabel: string;
+    itag: number;
+    quality: string;
     width: number;
     height: number;
     bitrate: number;
@@ -28,15 +30,17 @@ export default function Main() {
   const [url, setUrl] = React.useState<string>("");
   const [error, setError] = React.useState<boolean>(false);
   const [message, setMessage] = React.useState<string | undefined>("");
-  const [info, setInfo] = React.useState<responseData>();
+  const [info, setInfo] = React.useState<responseData | null>();
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const getDownloadinfo = async () => {
     try {
       setError(false);
       setLoading(true);
+      setInfo(null);
       const response = await axios.post<responseData>(`api/getInfo`, { url });
       setInfo(response?.data);
+      console.log(info);
     } catch (error) {
       const e = error as AxiosError<errorMessage, any>;
       setError(true);

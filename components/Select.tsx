@@ -1,22 +1,49 @@
 import React from "react";
 import axios from "axios";
+import downloader from "downloadjs";
 
 interface Props {
   url: string;
   formats: {
     container: string;
     qualityLabel: string;
+    itag: number;
+    quality: string;
     width: number;
     height: number;
     bitrate: number;
+    url: string;
   }[];
 }
 
+const fetcher = (Options: any) => {
+  fetch(`api/download`, Options)
+    .then((res) => res.blob())
+    .then((blob) => {
+      const sizeInBytes = blob.size;
+      console.log("sizeInBytes: ", sizeInBytes);
+      if (sizeInBytes <= 0) {
+      } else {
+        downloader(blob, `${Options.url}.mp4`, "video/mp4");
+      }
+    });
+};
+
 export default function Select({ formats, url }: Props) {
-  const [qualit, setQualit] = React.useState("480p");
+  const [options, setOptions] = React.useState("135");
   const download = async () => {
+    const Options = {
+      url,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ options, url }),
+    };
+    fetcher(Options);
     try {
-      await axios.post(`api/downloader`, { qualit, url });
+      const res = await axios.post(`api/download`, { options, url });
+      window.location.href = res.data;
+      //downloader(res.data, `hjhjk.mp4`, "video/mp4");
+      // console.log(res?.data?.blob);
     } catch (error) {}
   };
 
@@ -30,14 +57,14 @@ export default function Select({ formats, url }: Props) {
           Select Format
         </label>
         <select
-          onChange={(e) => setQualit(e.target?.value)}
+          onChange={(e) => setOptions(e.target?.value)}
           id="formats"
           className="mt-2 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
         >
           <optgroup label="Video">
             {formats.map((format, id) => {
               return (
-                <option key={id} value={format.qualityLabel}>
+                <option key={id} value={format.itag}>
                   📼 - {format.container} - ({format.width}x{format.height}) -{" "}
                   {format.qualityLabel} - ({format.bitrate}MiB)
                 </option>

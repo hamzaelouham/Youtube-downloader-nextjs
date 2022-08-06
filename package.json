@@ -10,12 +10,14 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
+    "downloadjs": "^1.4.7",
     "next": "12.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "ytdl-core": "^4.11.0"
   },
   "devDependencies": {
+    "@types/downloadjs": "^1.4.3",
     "@types/node": "18.6.3",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",

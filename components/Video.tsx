@@ -8,6 +8,8 @@ interface videoProps {
   formats: {
     container: string;
     qualityLabel: string;
+    itag: number;
+    quality: string;
     width: number;
     height: number;
     bitrate: number;

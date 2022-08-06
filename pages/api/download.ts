@@ -6,18 +6,38 @@ import type {
 
 import ytdl from "ytdl-core";
 
+export const config = {
+  api: {
+    responseLimit: false,
+  },
+};
+
 export default async function handler(req: Request, res: Response) {
   if (req.method === "POST") {
+    res.setHeader("content-type", "application/json");
     const url: string = req.body.url;
-    const quality: string = req.body.quality;
-
+    const options: string = req.body.options;
     try {
       const info = await ytdl.getInfo(url);
+      const format = ytdl.chooseFormat(info.formats, { quality: options });
+      if (!format && typeof format != "object") {
+        return res.status(404).json({
+          message: "something worn!",
+        });
+      }
 
-      res.status(200).send(info);
+      //res.setHeader("content-type", `video/${format.container}`);
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="${info.videoDetails.title}.${format.container}"`
+      );
+
+      ytdl(url, {
+        filter: (arg) => arg.container === format.container,
+      }).pipe(res);
     } catch (e) {
       res.status(404).json({
-        message: " Please insert another YouTube link",
+        message: "something worn!",
       });
     }
   }

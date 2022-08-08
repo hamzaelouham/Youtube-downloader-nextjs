@@ -1,20 +1,12 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import ytdl from "ytdl-core";
+
 import type {
   NextApiRequest as Request,
   NextApiResponse as Response,
 } from "next";
 
-import ytdl from "ytdl-core";
-
-export const config = {
-  api: {
-    responseLimit: false,
-  },
-};
-
 export default async function handler(req: Request, res: Response) {
-  if (req.method === "POST") {
-    res.setHeader("content-type", "application/json");
+  if (req.method === "GET") {
     const url = req.query.url as string;
     const options = req.query.options;
 
@@ -26,7 +18,6 @@ export default async function handler(req: Request, res: Response) {
       });
     }
 
-    //res.setHeader("content-type", `video/${format.container}`);
     res.setHeader(
       "Content-Disposition",
       `attachment; filename="${info.videoDetails.title}.${format.container}"`
@@ -35,13 +26,11 @@ export default async function handler(req: Request, res: Response) {
     ytdl(url, {
       filter: (arg) => arg.container === format.container,
     }).pipe(res);
-
-    // try {
-
-    // } catch (e) {
-    //   res.status(404).json({
-    //     message: "something worn!",
-    //   });
-    // }
   }
 }
+
+// export const config = {
+//   api: {
+//     responseLimit: false,
+//   },
+// };

@@ -16,32 +16,11 @@ interface Props {
   }[];
 }
 
-const fetcher = (Options: any) => {
-  fetch(`api/download`, Options)
-    .then((res) => res.blob())
-    .then((blob) => {
-      const sizeInBytes = blob.size;
-      console.log("sizeInBytes: ", sizeInBytes);
-      if (sizeInBytes <= 0) {
-      } else {
-        downloader(blob, `${Options.url}.mp4`, "video/mp4");
-      }
-    });
-};
-
 export default function Select({ formats, url }: Props) {
   const [options, setOptions] = React.useState("135");
-  const download = async () => {
-    try {
-      // const res = await axios.get(`api/download?url=${url}?options=${options}`);
-      const res = await axios.get(
-        `https://nodejs-react-youtube-downloade.herokuapp.com/downloads?url=${url}?itag=${options}?container=${"mp4"}`
-      );
-      window.location.href = `/api/download?url=${url}?options=${options}`;
-      console.log(res);
-      //downloader(res.data, `hjhjk.mp4`, "video/mp4");
-      // console.log(res?.data?.blob);
-    } catch (error) {}
+
+  const download = () => {
+    window.location.href = `${process.env.NEXT_API_BASE_URL}/download?url=${url}?options=${options}`;
   };
 
   return (
@@ -80,3 +59,14 @@ export default function Select({ formats, url }: Props) {
     </>
   );
 }
+
+// try {
+//   // const res = await axios.get(`api/download?url=${url}?options=${options}`);
+//   const res = await axios.get(
+//     `https://nodejs-react-youtube-downloade.herokuapp.com/downloads?url=${url}?itag=${options}?container=${"mp4"}`
+//   );
+
+//   console.log(res);
+//   //downloader(res.data, `hjhjk.mp4`, "video/mp4");
+//   // console.log(res?.data?.blob);
+// } catch (error) {}

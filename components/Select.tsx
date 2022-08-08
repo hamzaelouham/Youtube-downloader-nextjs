@@ -1,6 +1,4 @@
-import React from "react";
-import axios from "axios";
-import downloader from "downloadjs";
+import React, { useState } from "react";
 
 interface Props {
   url: string;
@@ -17,7 +15,7 @@ interface Props {
 }
 
 export default function Select({ formats, url }: Props) {
-  const [options, setOptions] = React.useState<string>("135");
+  const [options, setOptions] = useState<string>("135");
 
   const download = () => {
     window.location.href = `${process.env.NEXT_API_BASE_URL}/download?url=${url}?options=${options}`;

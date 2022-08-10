@@ -17,9 +17,9 @@ interface Props {
 export default function Select({ formats, url }: Props) {
   const [options, setOptions] = useState<string>("135");
 
-  const download = () => {
-    window.location.href = `${process.env.NEXT_API_BASE_URL}/download?url=${url}?options=${options}`;
-  };
+  const download = () =>
+    window.open(`/api/download?url=${url}?options=${options}`);
+  // window.location.href = `/api/download?url=${url}?options=${options}`;
 
   return (
     <>

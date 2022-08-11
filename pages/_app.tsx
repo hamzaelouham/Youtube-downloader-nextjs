@@ -4,19 +4,5 @@ import "../styles/globals.css";
 import "../styles/style.css";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <Head>
-        <title>downlader</title>
-        <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico" />
-
-        <meta
-          name="description"
-          content="downlaod your favorite youtute videos faster"
-        />
-        <meta name="theme-color" content="#fff" />
-      </Head>
-      <Component {...pageProps} />
-    </>
-  );
+  return <Component {...pageProps} />;
 }

@@ -1,9 +1,9 @@
 {
     "theme_color": "#fff",
     "background_color": "#fff",
-    "display": "browser",
+    "display": "standalone",
     "scope": "/",
-    "start_url": "https://youtube-downloader-nextjs.vercel.app/",
+    "start_url": "/",
     "name": "youtube downloaer",
     "short_name": "ytdonwloader",
     "description": "this is simple nextjs app can help you dowbload youtube videos faster",
@@ -11,22 +11,26 @@
         {
             "src": "/icon-192x192.png",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "maskable"
         },
         {
             "src": "/icon-256x256.png",
             "sizes": "256x256",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "maskable"
         },
         {
             "src": "/icon-384x384.png",
             "sizes": "384x384",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "maskable"
         },
         {
             "src": "/icon-512x512.png",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "maskable"
         }
     ]
 }

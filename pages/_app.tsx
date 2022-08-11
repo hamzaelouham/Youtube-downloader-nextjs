@@ -9,7 +9,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>downlader</title>
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico" />
-        <link rel="manifest" href="/manifast.json" />
+
         <meta
           name="description"
           content="downlaod your favorite youtute videos faster"
